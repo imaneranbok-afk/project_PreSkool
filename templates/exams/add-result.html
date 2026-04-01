@@ -1,0 +1,87 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Ajouter des notes - {{ exam.name }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'exam_list' %}">Examens</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'exam_view' exam.id %}">{{ exam.name }}</a></li>
+                        <li class="breadcrumb-item active">Ajouter des notes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            <strong>Informations :</strong> Note totale: {{ exam.total_marks }} | Note de passage: {{ exam.passing_marks
+            }}
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Étudiant <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="student" required>
+                                            <option value="">-- Sélectionner un étudiant --</option>
+                                            {% for student in students %}
+                                            {% if student.id not in existing_results %}
+                                            <option value="{{ student.id }}">{{ student.first_name }} {{
+                                                student.last_name }} ({{ student.student_id }})</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Note obtenue <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="marks_obtained" step="0.5"
+                                            min="0" max="{{ exam.total_marks }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Remarques</label>
+                                        <textarea class="form-control" name="remarks" rows="3"
+                                            placeholder="Remarques sur la copie..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <a href="{% url 'exam_view' exam.id %}" class="btn btn-secondary">Annuler</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if existing_results %}
+        <div class="alert alert-success mt-3">
+            <strong>Étudiants ayant déjà une note :</strong>
+            <ul>
+                {% for result in exam.results.all %}
+                <li>{{ result.student.first_name }} {{ result.student.last_name }} - {{ result.marks_obtained }}/{{
+                    exam.total_marks }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

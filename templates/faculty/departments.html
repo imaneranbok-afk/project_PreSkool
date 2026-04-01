@@ -1,0 +1,82 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Départements</h3>
+                </div>
+                <div class="col-auto text-right">
+                    <a href="{% url 'department_add' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un département
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Nom du département</th>
+                                        <th>Chef de département</th>
+                                        <th>Description</th>
+                                        <th>Date création</th>
+                                        <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                    {% for department in departments %}
+                                    <tr>
+                                        <td>{{ department.code }}</td>
+                                        <td>{{ department.name }}</td>
+                                        <td>
+                                            {% if department.head %}
+                                            {{ department.head.first_name }} {{ department.head.last_name }}
+                                            {% else %}
+                                            <span class="text-muted">Non assigné</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ department.description|truncatechars:50 }}</td>
+                                        <td>{{ department.created_at|date:"d/m/Y" }}</td>
+                                        <td>
+                                            <a href="{% url 'department_view' department.id %}"
+                                                class="btn btn-sm btn-info">Voir</a>
+                                            <a href="{% url 'department_edit' department.id %}"
+                                                class="btn btn-sm btn-warning">Modifier</a>
+                                            <a href="{% url 'department_delete' department.id %}"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce département ?')">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">Aucun département trouvé</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

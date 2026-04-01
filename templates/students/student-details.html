@@ -1,0 +1,119 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Student Details</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'student_list' %}">Students</a></li>
+                        <li class="breadcrumb-item active">Student Details</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'edit_student' student.student_id %}" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>About Me</h4>
+                            <div class="media mt-3">
+                                <!-- Image (commentée car pas de champ image) -->
+                                <!-- <img src="{% static 'assets/img/default-avatar.jpg' %}" class="mr-3" alt="..."> -->
+                                <div class="media-body">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Full Name : </span>
+                                            <span class="info-span">{{ student.first_name }} {{ student.last_name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Student ID : </span>
+                                            <span class="info-span">{{ student.student_id }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Gender : </span>
+                                            <span class="info-span">{{ student.gender }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date of Birth : </span>
+                                            <span class="info-span">{{ student.date_of_birth }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Class : </span>
+                                            <span class="info-span">{{ student.student_class }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Section : </span>
+                                            <span class="info-span">{{ student.section }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Joining Date : </span>
+                                            <span class="info-span">{{ student.joining_date }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Mobile Number : </span>
+                                            <span class="info-span">{{ student.mobile_number }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Admission Number : </span>
+                                            <span class="info-span">{{ student.admission_number }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Parent Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Father's Information</h5>
+                        <ul>
+                            <li><strong>Name:</strong> {{ student.parent.father_name }}</li>
+                            <li><strong>Occupation:</strong> {{ student.parent.father_occupation }}</li>
+                            <li><strong>Mobile:</strong> {{ student.parent.father_mobile }}</li>
+                            <li><strong>Email:</strong> {{ student.parent.father_email }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Mother's Information</h5>
+                        <ul>
+                            <li><strong>Name:</strong> {{ student.parent.mother_name }}</li>
+                            <li><strong>Occupation:</strong> {{ student.parent.mother_occupation }}</li>
+                            <li><strong>Mobile:</strong> {{ student.parent.mother_mobile }}</li>
+                            <li><strong>Email:</strong> {{ student.parent.mother_email }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h5>Present Address</h5>
+                        <p>{{ student.parent.present_address }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Permanent Address</h5>
+                        <p>{{ student.parent.permanent_address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'student_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

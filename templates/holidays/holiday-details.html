@@ -1,0 +1,82 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Détails du congé</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'holiday_list' %}">Jours fériés</a></li>
+                        <li class="breadcrumb-item active">Détails</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'holiday_edit' holiday.id %}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Informations du congé</h4>
+                            <div class="media mt-3">
+                                <div class="media-body">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Nom : </span>
+                                            <span class="info-span">{{ holiday.name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de début : </span>
+                                            <span class="info-span">{{ holiday.start_date|date:"d/m/Y" }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de fin : </span>
+                                            <span class="info-span">{{ holiday.end_date|date:"d/m/Y" }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Durée : </span>
+                                            <span class="info-span">{{ holiday.duration }} jours</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Statut : </span>
+                                            <span class="info-span">
+                                                {% if holiday.is_active %}
+                                                <span class="badge badge-success">Actif</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">Inactif</span>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de création : </span>
+                                            <span class="info-span">{{ holiday.created_at|date:"d/m/Y H:i" }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Description</h4>
+                <p>{{ holiday.description|default:"Aucune description renseignée." }}</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'holiday_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Emploi du temps</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Accueil</a></li>
+                        <li class="breadcrumb-item active">Emploi du temps</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right">
+                    <a href="{% url 'timetable_add' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un cours
+                    </a>
+                    <a href="{% url 'timetable_export_json' %}" class="btn btn-success" target="_blank">
+                        <i class="fas fa-download"></i> Exporter JSON
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Horaire</th>
+                                        {% for day in days %}
+                                        <th>{{ day_labels|get_item:day }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for time_slot in time_slots %}
+                                    <tr>
+                                        <td class="bg-light font-weight-bold">{{ time_labels|get_item:time_slot }}</td>
+                                        {% for day in days %}
+                                        <td>
+                                            {% with entry=timetable_data|get_item:day|get_item:time_slot %}
+                                            {% if entry %}
+                                            <div class="course-item">
+                                                <strong>{{ entry.subject.name }}</strong><br>
+                                                <small class="text-muted">{{ entry.teacher.first_name }} {{entry.teacher.last_name }}</small><br>
+                                                <small>Salle: {{ entry.classroom }}</small>
+                                                {% if entry.group %}
+                                                <br><small class="text-info">Groupe: {{ entry.group }}</small>
+                                                {% endif %}
+                                                <div class="mt-1">
+                                                    <a href="{% url 'timetable_edit' entry.id %}"
+                                                        class="btn btn-sm btn-warning">Modifier</a>
+                                                    <a href="{% url 'timetable_delete' entry.id %}"
+                                                        class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Supprimer ce cours ?')">Supprimer</a>
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            <span class="text-muted">-</span>
+                                            {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function getItem(obj, key) {
+        return obj[key] || null;
+    }
+</script>
+{% endblock %}

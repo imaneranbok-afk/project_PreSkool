@@ -1,0 +1,87 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Détails de la matière</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'subject_list' %}">Matières</a></li>
+                        <li class="breadcrumb-item active">Détails</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'subject_edit' subject.id %}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Informations de la matière</h4>
+                            <div class="media mt-3">
+                                <div class="media-body">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Code : </span>
+                                            <span class="info-span">{{ subject.code }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Nom : </span>
+                                            <span class="info-span">{{ subject.name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Département : </span>
+                                            <span class="info-span">{{ subject.department.name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Enseignant : </span>
+                                            <span class="info-span">
+                                                {% if subject.teacher %}
+                                                {{ subject.teacher.first_name }} {{ subject.teacher.last_name }}
+                                                <small class="text-muted">({{ subject.teacher.teacher_id }})</small>
+                                                {% else %}
+                                                <span class="text-muted">Non assigné</span>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Crédits : </span>
+                                            <span class="info-span">{{ subject.credits }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de création : </span>
+                                            <span class="info-span">{{ subject.created_at|date:"d/m/Y H:i" }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Dernière modification : </span>
+                                            <span class="info-span">{{ subject.updated_at|date:"d/m/Y H:i" }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Description</h4>
+                <p>{{ subject.description|default:"Aucune description renseignée." }}</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'subject_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

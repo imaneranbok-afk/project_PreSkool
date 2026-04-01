@@ -1,0 +1,79 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Détails du département</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'department_list' %}">Départements</a></li>
+                        <li class="breadcrumb-item active">Détails</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'department_edit' department.id %}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Informations du département</h4>
+                            <div class="media mt-3">
+                                <div class="media-body">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Code : </span>
+                                            <span class="info-span">{{ department.code }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Nom : </span>
+                                            <span class="info-span">{{ department.name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Chef de département : </span>
+                                            <span class="info-span">
+                                                {% if department.head %}
+                                                {{ department.head.first_name }} {{ department.head.last_name }}
+                                                <small class="text-muted">({{ department.head.teacher_id }})</small>
+                                                {% else %}
+                                                <span class="text-muted">Non assigné</span>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de création : </span>
+                                            <span class="info-span">{{ department.created_at|date:"d/m/Y H:i" }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Dernière modification : </span>
+                                            <span class="info-span">{{ department.updated_at|date:"d/m/Y H:i" }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Description</h4>
+                <p>{{ department.description|default:"Aucune description renseignée." }}</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'department_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

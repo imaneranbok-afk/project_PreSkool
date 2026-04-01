@@ -1,0 +1,60 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Emploi du temps - {{ teacher.first_name }} {{ teacher.last_name }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'timetable_view' %}">Emploi du temps</a></li>
+                        <li class="breadcrumb-item active">Enseignant</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Jour</th>
+                                        <th>Horaire</th>
+                                        <th>Matière</th>
+                                        <th>Salle</th>
+                                        <th>Groupe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for day, entries in timetable_data.items %}
+                                    {% for entry in entries %}
+                                    <tr>
+                                        <td>{{ day_labels|get_item:day }}</td>
+                                        <td>{{ entry.get_time_slot_display }}</td>
+                                        <td><strong>{{ entry.subject.name }}</strong></td>
+                                        <td>{{ entry.classroom }}</td>
+                                        <td>{{ entry.group|default:"-" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Aucun cours programmé</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

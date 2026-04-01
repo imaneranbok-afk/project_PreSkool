@@ -1,0 +1,90 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Modifier le département</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'department_list' %}">Départements</a></li>
+                        <li class="breadcrumb-item active">Modifier</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>
+        {% endfor %} {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="form-title">Informations du département</h5>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Code du département <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="code"
+                                            value="{{ department.code }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nom du département <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="name"
+                                            value="{{ department.name }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="description"
+                                            rows="4">{{ department.description }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Chef de département</label>
+                                        <select class="form-control" name="head">
+                                            <option value="">-- Sélectionner un enseignant --</option>
+                                            {% for teacher in teachers %}
+                                            <option value="{{ teacher.id }}" {% if department.head and department.head.id == teacher.id %}selected{% endif %}>
+                                                {{ teacher.first_name }} {{ teacher.last_name }} ({{ teacher.teacher_id}})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <small class="form-text text-muted">L'enseignant sélectionné sera le responsable
+                                            du département</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <a href="{% url 'department_list' %}" class="btn btn-secondary">Annuler</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

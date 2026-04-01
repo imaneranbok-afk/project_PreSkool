@@ -1,0 +1,58 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Tableau de bord Administrateur</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Accueil</a></li>
+                        <li class="breadcrumb-item active">Admin Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Bienvenue, {{ user.first_name }} {{ user.last_name }}</h4>
+                        <p>Vous êtes connecté en tant qu'<strong>Administrateur</strong></p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card text-center bg-primary text-white">
+                                    <div class="card-body">
+                                        <h3>{{ total_students|default:"0" }}</h3>
+                                        <p>Étudiants</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center bg-success text-white">
+                                    <div class="card-body">
+                                        <h3>{{ total_teachers|default:"0" }}</h3>
+                                        <p>Enseignants</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center bg-info text-white">
+                                    <div class="card-body">
+                                        <h3>{{ total_users|default:"0" }}</h3>
+                                        <p>Utilisateurs</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Modifier le congé</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'holiday_list' %}">Jours fériés</a></li>
+                        <li class="breadcrumb-item active">Modifier</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="form-title">Informations du congé</h5>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Nom du congé <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="name" value="{{ holiday.name }}"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Date de début <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="start_date"
+                                            value="{{ holiday.start_date|date:'Y-m-d' }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Date de fin <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="end_date"
+                                            value="{{ holiday.end_date|date:'Y-m-d' }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="description"
+                                            rows="4">{{ holiday.description }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="is_active" {% if holiday.is_active %}checked{%
+                                                endif %}> Actif
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <a href="{% url 'holiday_list' %}" class="btn btn-secondary">Annuler</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

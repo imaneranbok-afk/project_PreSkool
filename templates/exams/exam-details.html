@@ -1,0 +1,130 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Détails de l'examen</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'exam_list' %}">Examens</a></li>
+                        <li class="breadcrumb-item active">Détails</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'exam_edit' exam.id %}" class="btn btn-primary">Modifier</a>
+                    <a href="{% url 'result_add' exam.id %}" class="btn btn-success">Ajouter des notes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Informations générales</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Nom:</strong> {{ exam.name }}</li>
+                            <li><strong>Type:</strong>
+                                {% if exam.exam_type == 'midterm' %}Examen mi-session
+                                {% elif exam.exam_type == 'final' %}Examen final
+                                {% elif exam.exam_type == 'quiz' %}Quiz
+                                {% elif exam.exam_type == 'practical' %}Examen pratique
+                                {% else %}Projet{% endif %}
+                            </li>
+                            <li><strong>Matière:</strong> {{ exam.subject.name }}</li>
+                            <li><strong>Salle:</strong> {{ exam.room }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Date et horaire</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Date:</strong> {{ exam.date|date:"d/m/Y" }}</li>
+                            <li><strong>Heure de début:</strong> {{ exam.start_time|time:"H:i" }}</li>
+                            <li><strong>Heure de fin:</strong> {{ exam.end_time|time:"H:i" }}</li>
+                            <li><strong>Durée:</strong>
+                                {% with duration=exam.end_time|timeuntil:exam.start_time %}
+                                {{ duration }}
+                                {% endwith %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Notes</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Note totale:</strong> {{ exam.total_marks }}</li>
+                            <li><strong>Note de passage:</strong> {{ exam.passing_marks }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Description</h4>
+                        <p>{{ exam.description|default:"Aucune description" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Résultats des étudiants</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Étudiant</th>
+                                <th>Matricule</th>
+                                <th>Note obtenue</th>
+                                <th>Pourcentage</th>
+                                <th>Statut</th>
+                                <th>Remarques</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ result.student.first_name }} {{ result.student.last_name }}</td>
+                                <td>{{ result.student.student_id }}</td>
+                                <td>
+                                    <strong>{{ result.marks_obtained }}</strong> / {{ exam.total_marks }}
+                                </td>
+                                <td>{{ result.percentage|floatformat:1 }}%</td>
+                                <td>
+                                    {% if result.is_passed %}
+                                    <span class="badge badge-success">Réussi</span>
+                                    {% else %}
+                                    <span class="badge badge-danger">Échec</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ result.remarks|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'result_edit' result.id %}"
+                                        class="btn btn-sm btn-warning">Modifier</a>
+                                    <a href="{% url 'result_delete' result.id %}" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Supprimer ce résultat ?')">Supprimer</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">Aucun résultat enregistré</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'exam_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Jours fériés</h3>
+                </div>
+                <div class="col-auto text-right">
+                    <a href="{% url 'holiday_add' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un congé
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Nom du congé</th>
+                                        <th>Date de début</th>
+                                        <th>Date de fin</th>
+                                        <th>Durée (jours)</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                </thead>
+                                <tbody>
+                                    {% for holiday in holidays %}
+                                    <tr>
+                                        <td>{{ holiday.name }}</td>
+                                        <td>{{ holiday.start_date|date:"d/m/Y" }}</td>
+                                        <td>{{ holiday.end_date|date:"d/m/Y" }}</td>
+                                        <td class="text-center">{{ holiday.duration }}</td>
+                                        <td>
+                                            {% if holiday.is_active %}
+                                            <span class="badge badge-success">Actif</span>
+                                            {% else %}
+                                            <span class="badge badge-danger">Inactif</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="{% url 'holiday_view' holiday.id %}"
+                                                class="btn btn-sm btn-info">Voir</a>
+                                            <a href="{% url 'holiday_edit' holiday.id %}"
+                                                class="btn btn-sm btn-warning">Modifier</a>
+                                            <a href="{% url 'holiday_delete' holiday.id %}"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce congé ?')">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">Aucun congé trouvé</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

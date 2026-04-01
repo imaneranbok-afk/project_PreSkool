@@ -1,0 +1,130 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Ajouter un examen</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'exam_list' %}">Examens</a></li>
+                        <li class="breadcrumb-item active">Ajouter</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="form-title">Informations de l'examen</h5>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nom de l'examen <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Ex: Examen final - Programmation Web" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Type d'examen <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="exam_type" required>
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="midterm">Examen mi-session</option>
+                                            <option value="final">Examen final</option>
+                                            <option value="quiz">Quiz</option>
+                                            <option value="practical">Examen pratique</option>
+                                            <option value="project">Projet</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Matière <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="subject" required>
+                                            <option value="">-- Sélectionner une matière --</option>
+                                            {% for subject in subjects %}
+                                            <option value="{{ subject.id }}">{{ subject.name }} ({{ subject.code }})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Salle <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="room" placeholder="Ex: A101, B202"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="date" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label>Heure de début <span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control" name="start_time" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label>Heure de fin <span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control" name="end_time" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Note totale</label>
+                                        <input type="number" class="form-control" name="total_marks" value="100" min="0"
+                                            step="0.5">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Note de passage</label>
+                                        <input type="number" class="form-control" name="passing_marks" value="50"
+                                            min="0" step="0.5">
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="description" rows="3"
+                                            placeholder="Description de l'examen..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <a href="{% url 'exam_list' %}" class="btn btn-secondary">Annuler</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Détails de l'enseignant</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'teacher_list' %}">Enseignants</a></li>
+                        <li class="breadcrumb-item active">Détails</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="{% url 'teacher_edit' teacher.teacher_id %}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Informations personnelles</h4>
+                            <div class="media mt-3">
+                                <div class="media-body">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Matricule : </span>
+                                            <span class="info-span">{{ teacher.teacher_id }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Nom complet : </span>
+                                            <span class="info-span">{{ teacher.first_name }} {{ teacher.last_name
+                                                }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Genre : </span>
+                                            <span class="info-span">{{ teacher.get_gender_display }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date de naissance : </span>
+                                            <span class="info-span">{{ teacher.date_of_birth }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Date d'embauche : </span>
+                                            <span class="info-span">{{ teacher.hire_date }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Statut : </span>
+                                            <span class="info-span">
+                                                {% if teacher.is_active %}
+                                                <span class="badge badge-success">Actif</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">Inactif</span>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Coordonnées</h4>
+                <ul>
+                    <li><strong>Email :</strong> {{ teacher.email }}</li>
+                    <li><strong>Téléphone :</strong> {{ teacher.phone }}</li>
+                    <li><strong>Adresse :</strong> {{ teacher.address|default:"Non renseignée" }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Informations professionnelles</h4>
+                <ul>
+                    <li><strong>Qualification :</strong> {{ teacher.qualification }}</li>
+                    <li><strong>Spécialisation :</strong> {{ teacher.specialization }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'teacher_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
