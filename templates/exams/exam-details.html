@@ -44,11 +44,6 @@
                             <li><strong>Date:</strong> {{ exam.date|date:"d/m/Y" }}</li>
                             <li><strong>Heure de début:</strong> {{ exam.start_time|time:"H:i" }}</li>
                             <li><strong>Heure de fin:</strong> {{ exam.end_time|time:"H:i" }}</li>
-                            <li><strong>Durée:</strong>
-                                {% with duration=exam.end_time|timeuntil:exam.start_time %}
-                                {{ duration }}
-                                {% endwith %}
-                            </li>
                         </ul>
                     </div>
                 </div>

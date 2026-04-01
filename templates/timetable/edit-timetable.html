@@ -32,8 +32,7 @@
                                         <label>Jour <span class="text-danger">*</span></label>
                                         <select class="form-control" name="day" required>
                                             {% for value, label in days %}
-                                            <option value="{{ value }}" {% if timetable.day==value %}selected{% endif
-                                                %}>{{ label }}</option>
+                                            <option value="{{ value }}" {% if timetable.day == value %}selected{% endif%}>{{ label }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -44,8 +43,7 @@
                                         <label>Horaire <span class="text-danger">*</span></label>
                                         <select class="form-control" name="time_slot" required>
                                             {% for value, label in time_slots %}
-                                            <option value="{{ value }}" {% if timetable.time_slot==value %}selected{%
-                                                endif %}>{{ label }}</option>
+                                            <option value="{{ value }}" {% if timetable.time_slot == value %}selected{%endif %}>{{ label }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -56,8 +54,7 @@
                                         <label>Matière <span class="text-danger">*</span></label>
                                         <select class="form-control" name="subject" required>
                                             {% for subject in subjects %}
-                                            <option value="{{ subject.id }}" {% if timetable.subject.id==subject.id
-                                                %}selected{% endif %}>{{ subject.name }} ({{ subject.code }})</option>
+                                            <option value="{{ subject.id }}" {% if timetable.subject.id == subject.id%}selected{% endif %}>{{ subject.name }} ({{ subject.code }})</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -68,8 +65,7 @@
                                         <label>Enseignant <span class="text-danger">*</span></label>
                                         <select class="form-control" name="teacher" required>
                                             {% for teacher in teachers %}
-                                            <option value="{{ teacher.id }}" {% if timetable.teacher.id==teacher.id
-                                                %}selected{% endif %}>{{ teacher.first_name }} {{ teacher.last_name }}
+                                            <option value="{{ teacher.id }}" {% if timetable.teacher.id == teacher.id%}selected{% endif %}>{{ teacher.first_name }} {{ teacher.last_name }}
                                             </option>
                                             {% endfor %}
                                         </select>
@@ -95,8 +91,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label>
-                                            <input type="checkbox" name="is_active" {% if timetable.is_active
-                                                %}checked{% endif %}> Actif
+                                            <input type="checkbox" name="is_active" {% if timetable.is_active%}checked{% endif %}> Actif
                                         </label>
                                     </div>
                                 </div>

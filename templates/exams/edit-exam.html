@@ -39,16 +39,13 @@
                                     <div class="form-group">
                                         <label>Type d'examen <span class="text-danger">*</span></label>
                                         <select class="form-control" name="exam_type" required>
-                                            <option value="midterm" {% if exam.exam_type=='midterm' %}selected{% endif
-                                                %}>Examen mi-session</option>
-                                            <option value="final" {% if exam.exam_type=='final' %}selected{% endif %}>
+                                            <option value="midterm" {% if exam.exam_type == 'midterm' %}selected{% endif%}>Examen mi-session</option>
+                                            <option value="final" {% if exam.exam_type == 'final' %}selected{% endif %}>
                                                 Examen final</option>
-                                            <option value="quiz" {% if exam.exam_type=='quiz' %}selected{% endif %}>Quiz
+                                            <option value="quiz" {% if exam.exam_type == 'quiz' %}selected{% endif %}>Quiz
                                             </option>
-                                            <option value="practical" {% if exam.exam_type=='practical' %}selected{%
-                                                endif %}>Examen pratique</option>
-                                            <option value="project" {% if exam.exam_type=='project' %}selected{% endif
-                                                %}>Projet</option>
+                                            <option value="practical" {% if exam.exam_type == 'practical' %}selected{%endif %}>Examen pratique</option>
+                                            <option value="project" {% if exam.exam_type == 'project' %}selected{% endif%}>Projet</option>
                                         </select>
                                     </div>
                                 </div>
@@ -58,8 +55,7 @@
                                         <label>Matière <span class="text-danger">*</span></label>
                                         <select class="form-control" name="subject" required>
                                             {% for subject in subjects %}
-                                            <option value="{{ subject.id }}" {% if exam.subject.id==subject.id
-                                                %}selected{% endif %}>{{ subject.name }} ({{ subject.code }})</option>
+                                            <option value="{{ subject.id }}" {% if exam.subject.id == subject.id%}selected{% endif %}>{{ subject.name }} ({{ subject.code }})</option>
                                             {% endfor %}
                                         </select>
                                     </div>

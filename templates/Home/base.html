@@ -83,7 +83,7 @@
                   <li class="menu-title">
                      <span>Main Menu</span>
                   </li>
-                  <li class="submenu active">
+                  <li class="submenu">
                      <a href="javascript:void(0)"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span
                            class="menu-arrow"></span></a>
                      <ul>
@@ -167,19 +167,19 @@
 
    <script>
       $(document).ready(function () {
-         // Gestion des sous-menus
-         $('.submenu > a').on('click', function (e) {
-            e.preventDefault();
-            var parent = $(this).parent();
-
-            // Fermer les autres sous-menus
-            $('.submenu').not(parent).removeClass('active');
-            $('.submenu').not(parent).find('ul').slideUp(200);
-
-            // Ouvrir/fermer le sous-menu cliqué
-            parent.toggleClass('active');
-            parent.find('ul').slideToggle(200);
-         });
+         // Gestion des sous-menus au survol (hover)
+         $('.submenu').hover(
+            function () {
+               // Au survol : ouverture
+               $(this).addClass('active');
+               $(this).find('ul').stop(true, true).slideDown(200);
+            },
+            function () {
+               // À la sortie : fermeture
+               $(this).removeClass('active');
+               $(this).find('ul').stop(true, true).slideUp(200);
+            }
+         );
       });
    </script>
 
@@ -200,6 +200,17 @@
 
       .submenu.active .menu-arrow {
          transform: rotate(90deg);
+      }
+
+      /* Pour les mobiles/tactiles, garder le comportement click */
+      @media (max-width: 768px) {
+         .submenu ul {
+            display: none;
+         }
+
+         .submenu.active ul {
+            display: block;
+         }
       }
    </style>
 </body>
